@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 // Kirils
 class BitOutputStream {
@@ -13,6 +15,13 @@ class BitOutputStream {
         bytes = new ArrayList<>();
         currentBitNum = 0;
         currentByte = 0;
+    }
+
+    public BitOutputStream(int[] startValues) {
+        this();
+        for (int value : startValues)
+            for (int i = 0; i < 4; i++)
+                bytes.add((byte) ((value >> (i * 8)) & 255));
     }
 
     public void writeBit(boolean bit) {
@@ -40,6 +49,14 @@ class BitOutputStream {
         bytes.add(currentByte);
         currentBitNum = 0;
         currentByte = 0;
+    }
+
+    public int flush() {
+        int wasteBits = 8 - currentBitNum;
+        bytes.add(currentByte);
+        currentByte = 0;
+        currentBitNum = 0;
+        return wasteBits;
     }
 
     public byte[] toByteArray() {

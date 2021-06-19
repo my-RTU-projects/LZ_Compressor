@@ -11,12 +11,32 @@ class Main {
 
     static Scanner scanner;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        menu();
+
+        //byte[] array = Files.readAllBytes(Paths.get("C:\\Users\\USER\\Desktop\\faili\\a.html"));
+        //byte[] enc = FSEEncoder.encode(array);
+        //byte[] dec = FSEDecoder.decode(enc);
+
+        //System.out.println(Arrays.equals(array, dec));
+        //System.out.println(array.length + " " + enc.length);
+        //equalArr(array, dec);
+    }
+
+    public static void equalArr(byte[] a1, byte[] a2) {
+        for (int i = 0; i < a1.length; i++) {
+            if (a1[i] != a2[i]) {
+                System.out.println(i + ": " + a1[i] + " != " + a2[i]);
+            }
+        }
+    }
+
+    public static void menu() {
         scanner = new Scanner(System.in);
 
         String command = "";
         while (!command.equals("exit")) {
-            System.out.println("Ievadiet komandu: ");
+            System.out.println("Ievadiet komandu (comp, decomp, size, equal, exit): ");
             command = scanner.nextLine();
             switch(command){
                 case "comp":
@@ -50,15 +70,28 @@ class Main {
         try (FileInputStream fis = new FileInputStream(fileName1);
              FileOutputStream fos = new FileOutputStream(fileName2)) {
 
-            while (true) {
+            // Рассчитывается кол-во блоков
+            byte dataBlockCount = (byte) (fis.available() >> 24);
+            if (fis.available() % (1 << 24) > 0) dataBlockCount++;
+            // Записывается кол-во блоков
+            fos.write(dataBlockCount);
+
+            while (fis.available() > 0) {
+                // Читается блок максимаьный размер которого - 2^24 Б
                 byte[] original;
                 if (fis.available() > (1 << 24)) original = new byte[1 << 24];
                 else original = new byte[fis.available()];
-
                 fis.read(original);
-                fos.write(LZEncoder.encode(original));
 
-                if (fis.available() == 0) break;
+                // Кодируется блок
+                byte[] encoded = FSEEncoder.encode(LZEncoder.encode(original));
+
+                // Запмсывается размер закодированного блока
+                for (int i = 0; i < 4; i++) {
+                    fos.write((byte) ((encoded.length >> (i * 8)) & 255));
+                }
+                // Записываются закодированные данные
+                fos.write(encoded);
             }
         } catch (Exception e) {
             System.out.println("Something goes wrong!");
@@ -76,9 +109,25 @@ class Main {
         System.out.print("Target file name: ");
         String fileName2 = scanner.nextLine();
 
-        try (FileOutputStream fos = new FileOutputStream(fileName2)) {
-            byte[] encoded = Files.readAllBytes(Paths.get(fileName1));;
-            fos.write(LZDecoder.decode(encoded));
+        try (FileInputStream fis = new FileInputStream(fileName1);
+             FileOutputStream fos = new FileOutputStream(fileName2)) {
+
+            byte dataBlockCount = (byte) fis.read();
+
+
+            while (dataBlockCount > 0) {
+                int encodedDataSize = 0;
+                for (int i = 0; i < 4; i++) {
+                    byte b = (byte) fis.read();
+                    encodedDataSize = encodedDataSize | ((b & 255) << (i * 8));
+                }
+
+                byte[] encodedBlock = fis.readNBytes(encodedDataSize);
+                byte[] decodedBlock = LZDecoder.decode(FSEDecoder.decode(encodedBlock));
+
+                fos.write(decodedBlock);
+                dataBlockCount--;
+            }
         } catch (Exception e) {
             System.out.println("Something goes wrong!");
         }
