@@ -1,9 +1,14 @@
+package project.LZ;
+
 import java.util.ArrayList;
 
-// Kirils
-class LZDecoder {
+import project.BitInputStream;
+import project.Decoder;
 
-    public static byte[] decode(byte[] data) {
+// Kirils
+public class LZDecoder extends Decoder {
+
+    public byte[] decode(byte[] data) {
         BitInputStream stream = new BitInputStream(data);
         ArrayList<Byte> decodedData = new ArrayList<>();
 

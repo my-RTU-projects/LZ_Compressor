@@ -1,27 +1,30 @@
-import java.util.ArrayList;
+package project.FSE;
+
+import project.BitInputStream;
+import project.Decoder;
+import project.Utils;
+
 import java.util.Arrays;
 
-public class FSEDecoder {
-    static int p = 16;
-    static final int M = 1 << p;
+public class FSEDecoder extends Decoder {
 
-    public static byte[] decode(byte[] data) {
+    public byte[] decode(byte[] data) {
 
         // Читаем частотную таблицу
-        int[] bytesFrequencies = readFrequencies(data);
+        int[] bytesFrequencies = Utils.readFrequencies(data);
         byte[] allocationTable = getAllocationTable(bytesFrequencies);
-        int[] areaBegins = getAreaBegins(bytesFrequencies);
+        int[] areaBegins = Utils.getAreaBegins(bytesFrequencies);
 
         // Читаем число закодированных байт
         int byteNum = 0;
-        for (int i = 1024; i < 1028; i++) {
+        for (int i = 512; i < 516; i++) {
             byte b = data[i];
             byteNum = byteNum | ((b & 255) << (i * 8));
         }
 
         // колво лишних бит
         byte wasteBitsCount = data[data.length - 5];
-        BitInputStream stream = new BitInputStream(Arrays.copyOfRange(data, 1028, data.length - 5), false, wasteBitsCount);
+        BitInputStream stream = new BitInputStream(Arrays.copyOfRange(data, 516, data.length - 5), false, wasteBitsCount);
 
         byte[] result = new byte[byteNum];
 
@@ -36,9 +39,9 @@ public class FSEDecoder {
         for (int i = 0; i < byteNum - 1; i++) {
             result[i] = allocationTable[state];
             int freq = bytesFrequencies[allocationTable[state] + 128];
-            int maxBit = getBitsMaximum(freq);
+            int maxBit = Utils.getBitsMaximum(freq);
 
-            int smallRangeCount = (freq - (M >> maxBit)) * 2;
+            int smallRangeCount = (freq - (Utils.M >> maxBit)) * 2;
             int byteNumInGroup = state - areaBegins[allocationTable[state] + 128];
             int inBitNum;
             int rangeBegin;
@@ -64,33 +67,9 @@ public class FSEDecoder {
         return result;
     }
 
-    private static int[] readFrequencies(byte[] data) {
-        int[] bytesFrequencies = new int[256];
-        for (int i = 0; i < 256; i++) {
-            int freq = 0;
-            for (int j = 0; j < 4; j++) {
-                byte b = data[i * 4 + j];
-                freq = freq | ((b & 255) << (j * 8));
-            }
-            bytesFrequencies[i] = freq;
-        }
-        return bytesFrequencies;
-    }
-
-    private static int[] getAreaBegins(int[] bytesFrequencies) {
-        int[] areaBegins = new int[bytesFrequencies.length];
-        int begin = 0;
-
-        for (int i = 0; i < bytesFrequencies.length; i++) {
-            areaBegins[i] = begin;
-            begin += bytesFrequencies[i];
-        }
-
-        return areaBegins;
-    }
 
     private static byte[] getAllocationTable(int[] bytesFrequencies) {
-        byte[] allocationTable = new byte[M];
+        byte[] allocationTable = new byte[Utils.M];
 
         int index = 0;
         for (int i = 0; i < bytesFrequencies.length; i++) {
@@ -102,12 +81,5 @@ public class FSEDecoder {
         }
 
         return allocationTable;
-    }
-
-    private static int getBitsMaximum(int freq) {
-        int freqHighBitNum = 1;
-        while ((freq >> freqHighBitNum) > 0) freqHighBitNum++;
-        freqHighBitNum--;
-        return p - freqHighBitNum;
     }
 }

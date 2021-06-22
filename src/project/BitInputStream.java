@@ -1,5 +1,7 @@
-// Kirils
-class BitInputStream {
+package project;
+
+
+public class BitInputStream {
     byte[] bytes;
     private short currentBitNum;
     private int currentByteNum;

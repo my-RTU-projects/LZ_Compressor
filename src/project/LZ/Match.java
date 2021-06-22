@@ -1,3 +1,5 @@
+package project.LZ;
+
 class Match {
     private int length;
     private int distance;

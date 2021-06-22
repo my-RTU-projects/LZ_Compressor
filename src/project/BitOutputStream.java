@@ -1,9 +1,11 @@
+package project;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 // Kirils
-class BitOutputStream {
+public class BitOutputStream {
     private ArrayList<Byte> bytes;
     private short currentBitNum;
     private byte currentByte;
@@ -20,7 +22,7 @@ class BitOutputStream {
     public BitOutputStream(int[] startValues) {
         this();
         for (int value : startValues)
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
                 bytes.add((byte) ((value >> (i * 8)) & 255));
     }
 
@@ -37,11 +39,7 @@ class BitOutputStream {
     public void writeByte(byte bait) {
         byte mask = 1;
         for (int i = 0; i < 8; i++) {
-            if ((bait & (BIT_SET_MASK >>> i)) != 0) {
-                writeBit(true);
-            } else {
-                writeBit(false);
-            }
+            writeBit((bait & (BIT_SET_MASK >>> i)) != 0);
         }
     }
 

@@ -1,7 +1,11 @@
-class LZEncoder {
+package project.LZ;
 
-    // Kirils
-    public static byte[] encode(byte[] data) {
+import project.BitOutputStream;
+import project.Encoder;
+
+public class LZEncoder extends Encoder {
+
+    public byte[] encode(byte[] data) {
         BitOutputStream encodedData = new BitOutputStream();
 
         // Индекс следующего байта для кодирования
