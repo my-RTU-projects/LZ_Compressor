@@ -31,33 +31,22 @@ public class Utils {
 
     // Huffman only
     public static HuffmanTreeNode buildHuffmanTree(int[] byteFrequencies) {
-        // Create a priority queue to store live nodes of Huffman tree
-        // Notice that highest priority item has lowest frequency
         PriorityQueue<HuffmanTreeNode> pq = new PriorityQueue<>((left, right) -> left.freq - right.freq);
 
-        // Create a leaf node for each character and add it
-        // to the priority queue.
         for (int i = 0; i < byteFrequencies.length; i++) {
             if (byteFrequencies[i] != 0) {
                 pq.add(new HuffmanTreeNode((short) (i - 128), byteFrequencies[i]));
             }
         }
 
-        // do till there is more than one node in the queue
         while (pq.size() != 1) {
-            // Remove the two nodes of highest priority
-            // (lowest frequency) from the queue
             HuffmanTreeNode left = pq.poll();
             HuffmanTreeNode right = pq.poll();
 
-            // Create a new internal node with these two nodes as children
-            // and with frequency equal to the sum of the two nodes
-            // frequencies. Add the new node to the priority queue.
             int sum = left.freq + right.freq;
             pq.add(new HuffmanTreeNode((short) 128, sum, left, right)); // 128 не существующий байт
         }
 
-        // root stores pointer to root of Huffman Tree
         return pq.peek();
     }
 

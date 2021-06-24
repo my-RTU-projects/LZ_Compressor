@@ -1,10 +1,7 @@
 package project;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
-// Kirils
 public class BitOutputStream {
     private ArrayList<Byte> bytes;
     private short currentBitNum;

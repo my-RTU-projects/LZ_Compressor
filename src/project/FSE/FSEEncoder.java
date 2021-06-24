@@ -44,8 +44,7 @@ public class FSEEncoder extends Encoder {
 
             for (int j = 0; j < outBitsNum; j++) {
                 bitOutputStream.writeBit((state & (1 << j)) > 0);
-                //if (i < 10000 && i > 9980) System.out.print((state & (1 << j)) > 0 ? 1 : 0);
-            } //if (i < 10000 && i > 9980) System.out.println(" " + freq);
+            }
 
             // Определяется новое состояние
             state = areaBegins[data[i] + 128] + rangeNum;
