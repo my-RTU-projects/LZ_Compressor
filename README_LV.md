@@ -1,6 +1,10 @@
 [RU](README_RU.md)    
 [EN](README.md)
-#Compressor
+
+
+
+
+# Compressor
 Šis projekts tika izstrādāts universitātei pirmajā kursā. Mērķis bija maksimāli saspiests, nepievēršot uzmanību ātrumam. Iespējams, programmēšanas laikā daudzi vienriteņi tika "izdomāti". Tāpēc pieredzējušākiem cilvēkiem dažas daļas var šķist smieklīgas un dumjas.
 
 ## Vispārējs darba princips

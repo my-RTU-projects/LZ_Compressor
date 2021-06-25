@@ -1,7 +1,11 @@
 
 [RU](README_RU.md)    
 [LV](README_LV.md)
-#Compressor
+
+
+
+
+# Compressor
 This project was made for a university in the first year. The goal was maximum
 compression without giving too much attention to speed. Probably during programming
 many unicycle were "invented". So some parts may

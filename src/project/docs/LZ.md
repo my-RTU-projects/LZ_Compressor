@@ -1,4 +1,4 @@
-#LZ
+# LZ
 This algorithm is based on the well-known LZ77 algorithm, that is, to compress data in a data block, matches are searched for with those already encountered earlier and instead of
 re-recording of these data, a link to them is left.
 
