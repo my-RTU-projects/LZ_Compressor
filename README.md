@@ -1,6 +1,6 @@
 
-[RU](./README_RU.md)    
-[LV](./README_LV.md)
+[RU](README_RU.md)    
+[LV](README_LV.md)
 #Compressor
 This project was made for a university in the first year. The goal was maximum
 compression without giving too much attention to speed. Probably during programming
@@ -25,9 +25,9 @@ Compressed block size N (Y bytes) - 4B <br>
 Compressed block N - YB <br>
 
 ### Algorithms applied
-- Modified LZ77. The index for the record is 1 (01). [More details](./docs/LZ.md)
-- FSE. The index for the record is 2 (10). [More details](./docs/FSE.md)
-- Huffman. The index for the record is 3 (11). [More details](./docs/HUFFMAN.md)
+- Modified LZ77. The index for the record is 1 (01). [More details](src/project/docs/LZ.md)
+- FSE. The index for the record is 2 (10). [More details](src/project/docs/FSE.md)
+- Huffman. The index for the record is 3 (11). [More details](src/project/docs/HUFFMAN.md)
 
 
 ## Interaction with the program

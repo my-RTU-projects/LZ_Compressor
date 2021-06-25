@@ -1,5 +1,5 @@
-[RU](./README_RU.md)    
-[EN](./README.md)
+[RU](README_RU.md)    
+[EN](README.md)
 #Compressor
 Šis projekts tika izstrādāts universitātei pirmajā kursā. Mērķis bija maksimāli saspiests, nepievēršot uzmanību ātrumam. Iespējams, programmēšanas laikā daudzi vienriteņi tika "izdomāti". Tāpēc pieredzējušākiem cilvēkiem dažas daļas var šķist smieklīgas un dumjas.
 
@@ -16,9 +16,9 @@ Saspiestā bloka N lielums (Y baiti) - 4B <br>
 Saspiests bloks N - YB <br>
 
 ### Lietoti algoritmi
-- Modificētais LZ77. Ieraksta indekss - 1 (01). [Papildinformācija](./docs/LZ.md)
-- FSE. Ieraksta indekss - 2 (10). [Papildinformācija](./docs/FSE_LV.md)
-- Huffman. Ieraksta indekss - 3 (11). [Papildinformācija](./docs/HUFFMAN_LV.md)
+- Modificētais LZ77. Ieraksta indekss - 1 (01). [Papildinformācija](src/project/docs/LZ.md)
+- FSE. Ieraksta indekss - 2 (10). [Papildinformācija](src/project/docs/FSE_LV.md)
+- Huffman. Ieraksta indekss - 3 (11). [Papildinformācija](src/project/docs/HUFFMAN_LV.md)
 
 ## Mijiedarbība ar programmu
 Kad tiek palaists ciklā, tiek ieteikts ievadīt vienu no komandām:
